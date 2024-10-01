@@ -15,25 +15,19 @@ datasource db {
 model User{
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String 
-  email String 
+  email String @unique
   posts Post[]
-
   @@map("users")
 }
 
 model Post {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  slug     String    @unique
   title    String
-  body     String
-  author   User      @relation(fields: [authorId], references: [id])
-  authorId String    @db.ObjectId
-  comments Comment[]
+  description     String
+  gender   String
+  score Int
+  author   User      @relation(fields: [userEmail], references: [id])
+  userEmail String    @db.ObjectId
 }
 
-model Comment {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  comment String
-  post    Post   @relation(fields: [postId], references: [id])
-  postId  String @db.ObjectId
-}
+
