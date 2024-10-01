@@ -14,7 +14,7 @@ class CreateUserService{
         const user = await prismaClient.user.create({
             data:{
                 name,
-                email
+                email,
             }
         })
 

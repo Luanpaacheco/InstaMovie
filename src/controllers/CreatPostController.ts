@@ -1,18 +1,18 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import {CreateUserService} from '../services/CreateUserService'
+import {CreatePostService} from '../services/CreatPostService'
 
-class CreateUserController{
+class CreatePostController{
     async handle(request:FastifyRequest, reply:FastifyReply){
 
-        const{name,email}=request.body as {name:string, email:string};
+        const{title,description,gender,score,userEmail}=request.body as {title:string,description:string,gender:string,score:number,userEmail:string};
 
-        const userService = new CreateUserService()
+        const postService = new CreatePostService()
 
-        const user = await userService.execute({name,email});
+        const post = await postService.execute({title,description,gender,score,userEmail});
 
-        reply.send(user)
+        reply.send(post)
 
     }
 }
 
-export{CreateUserController};
+export{CreatePostController};

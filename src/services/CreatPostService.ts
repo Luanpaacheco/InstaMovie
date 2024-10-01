@@ -12,6 +12,14 @@ interface CreatePostProps{
 
 class CreatePostService{
     async execute({title,description,gender,score,userEmail}:CreatePostProps){
+        const user = await prismaClient.user.findUnique({
+            where: { email: userEmail },
+          });
+      
+          if (!user) {
+            throw new Error('Usuário não encontrado');
+          }
+
         const post = await prismaClient.post.create({
             data:{
                 title,

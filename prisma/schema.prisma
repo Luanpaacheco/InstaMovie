@@ -26,8 +26,9 @@ model Post {
   description     String
   gender   String
   score Int
-  author   User      @relation(fields: [userEmail], references: [id])
-  userEmail String    @db.ObjectId
+  author   User      @relation(fields: [userEmail], references: [email])
+  userEmail String 
+  @@map("posts")
 }
 
 
