@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import {api} from './service/api'
 import { useNavigate } from 'react-router-dom';
+import {FiTrash} from 'react-icons/fi'
 
 interface filmesProps{
   id:string,
@@ -17,6 +18,7 @@ const NewPage = () => {
   const { nickname, password } = location.state || {}; 
 
   const[filmes, setFilme]=useState<filmesProps[]>([])
+  const [Message, setMessage] = useState('');
 
   useEffect(()=>{
     loadUser();
@@ -41,6 +43,10 @@ const NewPage = () => {
   const [outroNickname, setNewnickname] = useState('');
 
   const validateCredentials = async (titulo: string, description: string, gender: string, score: number, nickname: string) => {
+    if(!titulo||!description||!gender||!score){
+      return false
+      
+    }
     console.log("hehe")
     // Construa a URL com os dados do nickname e senha
     const url = `http://localhost:3333/posts`;
@@ -68,10 +74,16 @@ const NewPage = () => {
     const isValid = await validateCredentials(titulo, description, gender, scoreNumber, nickname);
 
     if (isValid) {
+      setTitle('');
+      setDescription('');
+      setGender('');
+      setScore('');
+      setMessage('Filme adicionado ');
       console.log("criou");
       
     } else {
       console.log("nao criou")
+      setMessage('erro');
     }
   };
  async function teste(outroNickname:string) {
@@ -127,7 +139,14 @@ async function voltar() {
   //     console.log("nao achou")
   //   }
   // };
-  
+  async function handleDelete(id:string) {
+    await api.delete("/posts",{
+      params:{
+        nickname:nickname,
+        id:id
+      }
+    })
+  }
 
 
 
@@ -140,11 +159,15 @@ async function voltar() {
     <h1 className="text-4xl font-medium text-white text-left pb-20">seus filmes</h1>
       <section className='flex flex-col'>
         {filmes.map((filme)=>(
-          <article key={filme.id} className='w-3/4 ml-9  bg-white rounded p-2 relative hover:scale-105 duration-200 my-2'>
+          <article key={filme.id} className='w-3/4 ml-9  bg-white rounded p-2 relative hover:scale-105 duration-200 my-2 '>
           <p><span className='font-medium'>title:</span> {filme.title}</p>
           <p><span className='font-medium'>description:</span> {filme.description}</p>
           <p><span className='font-medium'>gender:</span> {filme.gender}</p>
           <p><span className='font-medium'>score:</span> {filme.score}</p>
+          <button className='bg-red-500 w-7 h-7 flex items-center justify-center rounded-lg absolute right-0 -top-2'
+          onClick={()=>handleDelete(filme.id)}>
+            <FiTrash size={18} color='#fff'/>
+          </button>
         </article>
         ))}
       </section>
@@ -215,6 +238,9 @@ async function voltar() {
                       className="cursor-pointer w-full p-2 bg-blue-700 rounded font-medium"
                       onClick={() => handleLogin}>Adicionar a lista
           </button>
+          {Message && ( // Mostra a mensagem de erro se houver
+          <p className="text-white text-center mt-3">{Message}</p>
+        )}
     </div>
           
         </form>

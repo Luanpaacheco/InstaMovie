@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 
+
 import {api} from './service/api'
 
 
@@ -71,6 +72,7 @@ const outroUser = () => {
           <p><span className='font-medium'>description:</span> {filme.description}</p>
           <p><span className='font-medium'>gender:</span> {filme.gender}</p>
           <p><span className='font-medium'>score:</span> {filme.score}</p>
+
         </article>
         ))}
       </section>
