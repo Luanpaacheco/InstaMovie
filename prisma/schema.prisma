@@ -14,8 +14,8 @@ datasource db {
 }
 model User{
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String 
-  email String @unique
+  senha String 
+  nickname String @unique
   posts Post[]
   @@map("users")
 }
@@ -26,8 +26,8 @@ model Post {
   description     String
   gender   String
   score Int
-  author   User      @relation(fields: [userEmail], references: [email])
-  userEmail String 
+  author   User      @relation(fields: [userNickname], references: [nickname])
+  userNickname String 
   @@map("posts")
 }
 

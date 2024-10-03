@@ -7,13 +7,13 @@ interface CreatePostProps{
     description:string;
     gender:string;
     score:number;
-    userEmail:string
+    userNickname:string
 }
 
 class CreatePostService{
-    async execute({title,description,gender,score,userEmail}:CreatePostProps){
+    async execute({title,description,gender,score,userNickname}:CreatePostProps){
         const user = await prismaClient.user.findUnique({
-            where: { email: userEmail },
+            where: { nickname: userNickname },
           });
       
           if (!user) {
@@ -26,12 +26,12 @@ class CreatePostService{
                 description,
                 gender,
                 score,
-                userEmail
+                userNickname
             },
         });
 
         await prismaClient.user.update({
-            where:{email:userEmail},
+            where:{nickname:userNickname},
             data:{
                 posts:{
                     connect:{id:post.id}

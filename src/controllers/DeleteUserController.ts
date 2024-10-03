@@ -3,10 +3,10 @@ import {DeleteUserService} from '../services/DeleteUserService';
     
 class DeleteUserController{
     async handle(request:FastifyRequest, reply:FastifyReply){
-        const {id}= request.query as {id:string}
+        const {nickname}= request.query as {nickname:string}
         const userService= new DeleteUserService();
 
-        const user=await userService.execute({id})
+        const user=await userService.execute({nickname})
 
         reply.send(user);
     }

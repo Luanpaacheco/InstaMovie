@@ -3,11 +3,10 @@ import prismaClient from "../prisma";
 
 interface GetUserProps {
     nickname: string;
-    senha: string;
 }
 
-class GetUserByNicknameService {
-    async execute({ nickname, senha }: GetUserProps) {
+class GetUserJustNicknameService {
+    async execute({ nickname }: GetUserProps) {
         if (!nickname) {
             throw new Error("Nickname is required");
         }
@@ -28,12 +27,9 @@ class GetUserByNicknameService {
         }
 
         // Verifica se a senha está correta
-        if (user.senha !== senha) {
-            throw new Error("Senha incorreta");
-        }
 
         return user;
     }
 }
 
-export { GetUserByNicknameService };
+export { GetUserJustNicknameService };

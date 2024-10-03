@@ -1,18 +1,18 @@
 import prismaClient from "../prisma";
 
 interface DeleteUseProps{
-    id:string;
+    nickname:string;
 }
 
 class DeleteUserService{
-    async execute({id}:DeleteUseProps){
-        if(!id){
+    async execute({nickname}:DeleteUseProps){
+        if(!nickname){
             throw new Error("Solicitação invalida")
         }
 
         const findUser= await prismaClient.user.findFirst({
             where:{
-                id: id
+                nickname: nickname
             }
         })
 
@@ -22,7 +22,7 @@ class DeleteUserService{
 
         await prismaClient.user.delete({
             where:{
-                id:findUser.id
+                nickname:findUser.nickname
             }
         })
 
